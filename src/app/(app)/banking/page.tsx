@@ -15,18 +15,22 @@ interface BankAccount {
 }
 
 export default function BankingPage() {
-  const [selectedAccountId, setSelectedAccountId] = useState<string | null>(null);
+  const [selectedAccountId, setSelectedAccountId] = useState<string | null>(
+    null,
+  );
 
   const { data: accountsData, isLoading } = useQuery({
     queryKey: ["bank-accounts"],
     queryFn: () => bankingApi.accounts(),
   });
 
-  const accounts: BankAccount[] = accountsData?.data?.value ?? accountsData?.data ?? [];
+  const accounts: BankAccount[] =
+    accountsData?.data?.value ?? accountsData?.data ?? [];
 
   const { data: txnData } = useQuery({
     queryKey: ["bank-transactions", selectedAccountId],
-    queryFn: () => bankingApi.transactions(selectedAccountId!, { page: 1, pageSize: 50 }),
+    queryFn: () =>
+      bankingApi.transactions(selectedAccountId!, { page: 1, pageSize: 50 }),
     enabled: !!selectedAccountId,
   });
 
@@ -36,7 +40,9 @@ export default function BankingPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold text-gray-900">Banking</h1>
-        <p className="text-gray-500 mt-1">Manage bank accounts and transactions</p>
+        <p className="text-gray-500 mt-1">
+          Manage bank accounts and transactions
+        </p>
       </div>
 
       {isLoading ? (
@@ -61,12 +67,18 @@ export default function BankingPage() {
                   <div className="p-2 bg-blue-100 rounded-lg">
                     <Building2 className="h-5 w-5 text-blue-600" />
                   </div>
-                  <span className={`text-xs px-2 py-0.5 rounded-full ${acct.isActive ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-500"}`}>
+                  <span
+                    className={`text-xs px-2 py-0.5 rounded-full ${acct.isActive ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-500"}`}
+                  >
                     {acct.isActive ? "Active" : "Inactive"}
                   </span>
                 </div>
-                <p className="mt-3 font-semibold text-gray-900">{acct.accountName}</p>
-                <p className="text-xs text-gray-500 mt-0.5">{acct.bankName} • {acct.accountNumber}</p>
+                <p className="mt-3 font-semibold text-gray-900">
+                  {acct.accountName}
+                </p>
+                <p className="text-xs text-gray-500 mt-0.5">
+                  {acct.bankName} • {acct.accountNumber}
+                </p>
                 <p className="mt-3 text-xl font-bold text-gray-900">
                   {acct.currency} {acct.currentBalance.toLocaleString()}
                 </p>
@@ -83,7 +95,9 @@ export default function BankingPage() {
           {selectedAccountId && (
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
               <div className="px-6 py-4 border-b border-gray-100">
-                <h2 className="text-base font-semibold text-gray-900">Recent Transactions</h2>
+                <h2 className="text-base font-semibold text-gray-900">
+                  Recent Transactions
+                </h2>
               </div>
               <table className="w-full text-sm">
                 <thead>
@@ -96,28 +110,55 @@ export default function BankingPage() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-50">
-                  {transactions.map((t: { id: string; date: string; description: string; amount: number; type: string; isReconciled: boolean }) => (
-                    <tr key={t.id} className="hover:bg-gray-50">
-                      <td className="px-6 py-4 text-gray-500">{new Date(t.date).toLocaleDateString()}</td>
-                      <td className="px-6 py-4 text-gray-700">{t.description}</td>
-                      <td className={`px-6 py-4 text-right font-medium ${t.type === "Credit" ? "text-green-600" : "text-red-500"}`}>
-                        {t.type === "Credit" ? "+" : "-"} ${Math.abs(t.amount).toLocaleString()}
-                      </td>
-                      <td className="px-6 py-4 flex items-center gap-1 text-gray-500">
-                        {t.type === "Credit"
-                          ? <TrendingUp className="h-4 w-4 text-green-500" />
-                          : <TrendingDown className="h-4 w-4 text-red-500" />}
-                        {t.type}
-                      </td>
-                      <td className="px-6 py-4">
-                        <span className={`text-xs px-2 py-0.5 rounded-full ${t.isReconciled ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-500"}`}>
-                          {t.isReconciled ? "Reconciled" : "Pending"}
-                        </span>
+                  {transactions.map(
+                    (t: {
+                      id: string;
+                      date: string;
+                      description: string;
+                      amount: number;
+                      type: string;
+                      isReconciled: boolean;
+                    }) => (
+                      <tr key={t.id} className="hover:bg-gray-50">
+                        <td className="px-6 py-4 text-gray-500">
+                          {new Date(t.date).toLocaleDateString()}
+                        </td>
+                        <td className="px-6 py-4 text-gray-700">
+                          {t.description}
+                        </td>
+                        <td
+                          className={`px-6 py-4 text-right font-medium ${t.type === "Credit" ? "text-green-600" : "text-red-500"}`}
+                        >
+                          {t.type === "Credit" ? "+" : "-"} $
+                          {Math.abs(t.amount).toLocaleString()}
+                        </td>
+                        <td className="px-6 py-4 flex items-center gap-1 text-gray-500">
+                          {t.type === "Credit" ? (
+                            <TrendingUp className="h-4 w-4 text-green-500" />
+                          ) : (
+                            <TrendingDown className="h-4 w-4 text-red-500" />
+                          )}
+                          {t.type}
+                        </td>
+                        <td className="px-6 py-4">
+                          <span
+                            className={`text-xs px-2 py-0.5 rounded-full ${t.isReconciled ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-500"}`}
+                          >
+                            {t.isReconciled ? "Reconciled" : "Pending"}
+                          </span>
+                        </td>
+                      </tr>
+                    ),
+                  )}
+                  {transactions.length === 0 && (
+                    <tr>
+                      <td
+                        colSpan={5}
+                        className="px-6 py-12 text-center text-gray-400"
+                      >
+                        No transactions
                       </td>
                     </tr>
-                  ))}
-                  {transactions.length === 0 && (
-                    <tr><td colSpan={5} className="px-6 py-12 text-center text-gray-400">No transactions</td></tr>
                   )}
                 </tbody>
               </table>

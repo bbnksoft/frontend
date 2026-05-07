@@ -41,7 +41,10 @@ export default function CustomersPage() {
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
         <input
           value={search}
-          onChange={(e) => { setSearch(e.target.value); setPage(1); }}
+          onChange={(e) => {
+            setSearch(e.target.value);
+            setPage(1);
+          }}
           placeholder="Search customers..."
           className="w-full pl-9 pr-4 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
@@ -66,7 +69,9 @@ export default function CustomersPage() {
             <tbody className="divide-y divide-gray-50">
               {customers.map((c) => (
                 <tr key={c.id} className="hover:bg-gray-50 transition-colors">
-                  <td className="px-6 py-4 font-medium text-gray-900">{c.displayName}</td>
+                  <td className="px-6 py-4 font-medium text-gray-900">
+                    {c.displayName}
+                  </td>
                   <td className="px-6 py-4 text-gray-500">{c.email}</td>
                   <td className="px-6 py-4 text-gray-500">{c.phone}</td>
                   <td className="px-6 py-4 text-right text-orange-600 font-medium">
@@ -78,7 +83,14 @@ export default function CustomersPage() {
                 </tr>
               ))}
               {customers.length === 0 && (
-                <tr><td colSpan={5} className="px-6 py-16 text-center text-gray-400">No customers found</td></tr>
+                <tr>
+                  <td
+                    colSpan={5}
+                    className="px-6 py-16 text-center text-gray-400"
+                  >
+                    No customers found
+                  </td>
+                </tr>
               )}
             </tbody>
           </table>

@@ -108,7 +108,9 @@ export default function InvoicesPage() {
                       {inv.invoiceNumber}
                     </Link>
                   </td>
-                  <td className="px-6 py-4 text-gray-700">{inv.customerName}</td>
+                  <td className="px-6 py-4 text-gray-700">
+                    {inv.customerName}
+                  </td>
                   <td className="px-6 py-4 text-gray-500">
                     {new Date(inv.invoiceDate).toLocaleDateString()}
                   </td>

@@ -121,11 +121,7 @@ export default function DashboardPage() {
           <ResponsiveContainer width="100%" height={260}>
             <AreaChart data={revenueChartData}>
               <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-              <XAxis
-                dataKey="month"
-                tick={{ fontSize: 12 }}
-                stroke="#9ca3af"
-              />
+              <XAxis dataKey="month" tick={{ fontSize: 12 }} stroke="#9ca3af" />
               <YAxis tick={{ fontSize: 12 }} stroke="#9ca3af" />
               <Tooltip />
               <Area
@@ -232,7 +228,7 @@ export default function DashboardPage() {
                       <StatusBadge status={inv.status} />
                     </td>
                   </tr>
-                )
+                ),
               )}
               {(stats.recentInvoices ?? []).length === 0 && (
                 <tr>

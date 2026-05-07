@@ -65,7 +65,9 @@ export default function ExpensesPage() {
             <tbody className="divide-y divide-gray-50">
               {expenses.map((e) => (
                 <tr key={e.id} className="hover:bg-gray-50 transition-colors">
-                  <td className="px-6 py-4 font-medium text-gray-900">{e.description}</td>
+                  <td className="px-6 py-4 font-medium text-gray-900">
+                    {e.description}
+                  </td>
                   <td className="px-6 py-4 text-gray-500">{e.categoryName}</td>
                   <td className="px-6 py-4 text-gray-500">{e.vendorName}</td>
                   <td className="px-6 py-4 text-gray-500">
@@ -75,14 +77,23 @@ export default function ExpensesPage() {
                     {e.currency} {e.amount.toLocaleString()}
                   </td>
                   <td className="px-6 py-4">
-                    <span className={`inline-flex px-2.5 py-0.5 rounded-full text-xs font-medium ${STATUS_COLORS[e.status] ?? "bg-gray-100 text-gray-600"}`}>
+                    <span
+                      className={`inline-flex px-2.5 py-0.5 rounded-full text-xs font-medium ${STATUS_COLORS[e.status] ?? "bg-gray-100 text-gray-600"}`}
+                    >
                       {e.status}
                     </span>
                   </td>
                 </tr>
               ))}
               {expenses.length === 0 && (
-                <tr><td colSpan={6} className="px-6 py-16 text-center text-gray-400">No expenses found</td></tr>
+                <tr>
+                  <td
+                    colSpan={6}
+                    className="px-6 py-16 text-center text-gray-400"
+                  >
+                    No expenses found
+                  </td>
+                </tr>
               )}
             </tbody>
           </table>

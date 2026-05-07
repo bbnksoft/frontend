@@ -18,7 +18,9 @@ type ReportTab = "profitLoss" | "balanceSheet" | "cashFlow" | "aging";
 export default function ReportsPage() {
   const [tab, setTab] = useState<ReportTab>("profitLoss");
   const now = new Date();
-  const fromDate = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split("T")[0];
+  const fromDate = new Date(now.getFullYear(), now.getMonth(), 1)
+    .toISOString()
+    .split("T")[0];
   const toDate = now.toISOString().split("T")[0];
 
   const plQuery = useQuery({
@@ -71,7 +73,9 @@ export default function ReportsPage() {
             key={t.key}
             onClick={() => setTab(t.key)}
             className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-              tab === t.key ? "bg-white text-gray-900 shadow-sm" : "text-gray-500 hover:text-gray-700"
+              tab === t.key
+                ? "bg-white text-gray-900 shadow-sm"
+                : "text-gray-500 hover:text-gray-700"
             }`}
           >
             {t.label}
@@ -82,15 +86,31 @@ export default function ReportsPage() {
       {/* P&L */}
       {tab === "profitLoss" && (
         <div className="space-y-4">
-          {plQuery.isLoading ? <Spinner /> : plData ? (
+          {plQuery.isLoading ? (
+            <Spinner />
+          ) : plData ? (
             <>
               <div className="grid grid-cols-3 gap-4">
-                <SummaryCard label="Total Revenue" value={plData.totalRevenue} color="green" />
-                <SummaryCard label="Total Expenses" value={plData.totalExpenses} color="red" />
-                <SummaryCard label="Net Profit" value={plData.netProfit} color={plData.netProfit >= 0 ? "green" : "red"} />
+                <SummaryCard
+                  label="Total Revenue"
+                  value={plData.totalRevenue}
+                  color="green"
+                />
+                <SummaryCard
+                  label="Total Expenses"
+                  value={plData.totalExpenses}
+                  color="red"
+                />
+                <SummaryCard
+                  label="Net Profit"
+                  value={plData.netProfit}
+                  color={plData.netProfit >= 0 ? "green" : "red"}
+                />
               </div>
               <div className="bg-white rounded-xl border border-gray-100 p-6">
-                <h3 className="font-semibold text-gray-900 mb-4">Revenue vs Expenses by Category</h3>
+                <h3 className="font-semibold text-gray-900 mb-4">
+                  Revenue vs Expenses by Category
+                </h3>
                 <ResponsiveContainer width="100%" height={300}>
                   <BarChart data={plData.categoryBreakdown ?? []}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
@@ -104,14 +124,18 @@ export default function ReportsPage() {
                 </ResponsiveContainer>
               </div>
             </>
-          ) : <EmptyState />}
+          ) : (
+            <EmptyState />
+          )}
         </div>
       )}
 
       {/* Balance Sheet */}
       {tab === "balanceSheet" && (
         <div>
-          {bsQuery.isLoading ? <Spinner /> : bsData ? (
+          {bsQuery.isLoading ? (
+            <Spinner />
+          ) : bsData ? (
             <div className="grid grid-cols-2 gap-6">
               <Section title="Assets" items={bsData.assets ?? []} />
               <div className="space-y-4">
@@ -119,27 +143,47 @@ export default function ReportsPage() {
                 <Section title="Equity" items={bsData.equity ?? []} />
               </div>
             </div>
-          ) : <EmptyState />}
+          ) : (
+            <EmptyState />
+          )}
         </div>
       )}
 
       {/* Cash Flow */}
       {tab === "cashFlow" && (
         <div>
-          {cfQuery.isLoading ? <Spinner /> : cfData ? (
+          {cfQuery.isLoading ? (
+            <Spinner />
+          ) : cfData ? (
             <div className="grid grid-cols-3 gap-4">
-              <SummaryCard label="Operating" value={cfData.operatingActivities} color="blue" />
-              <SummaryCard label="Investing" value={cfData.investingActivities} color="purple" />
-              <SummaryCard label="Financing" value={cfData.financingActivities} color="orange" />
+              <SummaryCard
+                label="Operating"
+                value={cfData.operatingActivities}
+                color="blue"
+              />
+              <SummaryCard
+                label="Investing"
+                value={cfData.investingActivities}
+                color="purple"
+              />
+              <SummaryCard
+                label="Financing"
+                value={cfData.financingActivities}
+                color="orange"
+              />
             </div>
-          ) : <EmptyState />}
+          ) : (
+            <EmptyState />
+          )}
         </div>
       )}
 
       {/* Aging */}
       {tab === "aging" && (
         <div>
-          {agingQuery.isLoading ? <Spinner /> : agingData ? (
+          {agingQuery.isLoading ? (
+            <Spinner />
+          ) : agingData ? (
             <div className="bg-white rounded-xl border border-gray-100 overflow-hidden">
               <table className="w-full text-sm">
                 <thead>
@@ -154,21 +198,47 @@ export default function ReportsPage() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-50">
-                  {(agingData.rows ?? []).map((r: { customerName: string; current: number; days1_30: number; days31_60: number; days61_90: number; over90: number; total: number }) => (
-                    <tr key={r.customerName} className="hover:bg-gray-50">
-                      <td className="px-6 py-4 font-medium">{r.customerName}</td>
-                      <td className="px-6 py-4 text-right">${r.current?.toLocaleString()}</td>
-                      <td className="px-6 py-4 text-right">${r.days1_30?.toLocaleString()}</td>
-                      <td className="px-6 py-4 text-right">${r.days31_60?.toLocaleString()}</td>
-                      <td className="px-6 py-4 text-right">${r.days61_90?.toLocaleString()}</td>
-                      <td className="px-6 py-4 text-right text-red-500">${r.over90?.toLocaleString()}</td>
-                      <td className="px-6 py-4 text-right font-semibold">${r.total?.toLocaleString()}</td>
-                    </tr>
-                  ))}
+                  {(agingData.rows ?? []).map(
+                    (r: {
+                      customerName: string;
+                      current: number;
+                      days1_30: number;
+                      days31_60: number;
+                      days61_90: number;
+                      over90: number;
+                      total: number;
+                    }) => (
+                      <tr key={r.customerName} className="hover:bg-gray-50">
+                        <td className="px-6 py-4 font-medium">
+                          {r.customerName}
+                        </td>
+                        <td className="px-6 py-4 text-right">
+                          ${r.current?.toLocaleString()}
+                        </td>
+                        <td className="px-6 py-4 text-right">
+                          ${r.days1_30?.toLocaleString()}
+                        </td>
+                        <td className="px-6 py-4 text-right">
+                          ${r.days31_60?.toLocaleString()}
+                        </td>
+                        <td className="px-6 py-4 text-right">
+                          ${r.days61_90?.toLocaleString()}
+                        </td>
+                        <td className="px-6 py-4 text-right text-red-500">
+                          ${r.over90?.toLocaleString()}
+                        </td>
+                        <td className="px-6 py-4 text-right font-semibold">
+                          ${r.total?.toLocaleString()}
+                        </td>
+                      </tr>
+                    ),
+                  )}
                 </tbody>
               </table>
             </div>
-          ) : <EmptyState />}
+          ) : (
+            <EmptyState />
+          )}
         </div>
       )}
     </div>
@@ -191,7 +261,15 @@ function EmptyState() {
   );
 }
 
-function SummaryCard({ label, value, color }: { label: string; value: number; color: string }) {
+function SummaryCard({
+  label,
+  value,
+  color,
+}: {
+  label: string;
+  value: number;
+  color: string;
+}) {
   const colorMap: Record<string, string> = {
     green: "text-green-600",
     red: "text-red-500",
@@ -202,14 +280,22 @@ function SummaryCard({ label, value, color }: { label: string; value: number; co
   return (
     <div className="bg-white rounded-xl border border-gray-100 p-6">
       <p className="text-sm text-gray-500">{label}</p>
-      <p className={`text-2xl font-bold mt-1 ${colorMap[color] ?? "text-gray-900"}`}>
+      <p
+        className={`text-2xl font-bold mt-1 ${colorMap[color] ?? "text-gray-900"}`}
+      >
         ${value?.toLocaleString() ?? 0}
       </p>
     </div>
   );
 }
 
-function Section({ title, items }: { title: string; items: { name: string; balance: number }[] }) {
+function Section({
+  title,
+  items,
+}: {
+  title: string;
+  items: { name: string; balance: number }[];
+}) {
   const total = items.reduce((s, i) => s + (i.balance ?? 0), 0);
   return (
     <div className="bg-white rounded-xl border border-gray-100 overflow-hidden">
@@ -221,7 +307,9 @@ function Section({ title, items }: { title: string; items: { name: string; balan
           {items.map((item) => (
             <tr key={item.name} className="hover:bg-gray-50">
               <td className="px-6 py-3 text-gray-700">{item.name}</td>
-              <td className="px-6 py-3 text-right font-medium">${item.balance?.toLocaleString()}</td>
+              <td className="px-6 py-3 text-right font-medium">
+                ${item.balance?.toLocaleString()}
+              </td>
             </tr>
           ))}
           <tr className="bg-gray-50 font-semibold">

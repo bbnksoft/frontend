@@ -49,7 +49,7 @@ export default function Sidebar() {
               "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors",
               pathname.startsWith(href)
                 ? "bg-blue-600 text-white"
-                : "text-slate-300 hover:bg-slate-800 hover:text-white"
+                : "text-slate-300 hover:bg-slate-800 hover:text-white",
             )}
           >
             <Icon className="h-5 w-5 flex-shrink-0" />
